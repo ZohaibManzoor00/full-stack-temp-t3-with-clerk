@@ -10,6 +10,7 @@ export default function DashboardPage() {
     trpc.posts.getAll.queryOptions()
   );
 
+
   if (isFetching) return <div>Loading...</div>;
   if (error) {
     return (
