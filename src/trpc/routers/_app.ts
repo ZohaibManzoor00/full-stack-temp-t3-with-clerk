@@ -1,8 +1,8 @@
 import { createTRPCRouter } from "../init";
-import { userRouter } from "../procedures/test";
+import { postRouter } from "../procedures/posts";
 
 export const appRouter = createTRPCRouter({
-  users: userRouter
+  posts: postRouter,
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;
