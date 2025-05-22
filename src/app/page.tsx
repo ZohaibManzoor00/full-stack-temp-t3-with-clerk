@@ -1,10 +1,13 @@
-import { getQueryClient, trpc } from "@/trpc/server";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function Page() {
-  const queryClient = getQueryClient()
-  const test = await queryClient.fetchQuery(trpc.users.getMany.queryOptions())
-
-  return <div>
-    {JSON.stringify(test, null, 2)}
-  </div>;
+  return (
+    <>
+      <h1>Hello</h1>
+      <Button>
+        <Link href="/dashboard">View Dashboard</Link>
+      </Button>
+    </>
+  );
 }

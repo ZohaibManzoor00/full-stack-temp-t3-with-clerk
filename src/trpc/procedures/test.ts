@@ -1,7 +1,7 @@
-import { baseProcedure, createTRPCRouter } from "@/trpc/init";
+import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 
 export const userRouter = createTRPCRouter({
-  getMany: baseProcedure.query(async () => {
-    return [{ hello: "world" }];
+  getMany: protectedProcedure.query(async ({ ctx }) => {
+    return [{ hello: ctx.auth.userId }];
   }),
 });

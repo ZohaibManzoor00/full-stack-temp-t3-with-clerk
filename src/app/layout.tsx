@@ -19,11 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={`${dmSans.className} antialiased`}>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
-        </body>
-      </html>
+      <TRPCReactProvider>
+        <html lang="en">
+          <body className={`${dmSans.className} antialiased`}>{children}</body>
+        </html>
+      </TRPCReactProvider>
     </ClerkProvider>
   );
 }
