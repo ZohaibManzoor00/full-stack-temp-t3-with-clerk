@@ -2,19 +2,28 @@
 
 import SignInOutButton from "@/components/shared/sign-out-button-custom";
 import { useTRPC } from "@/trpc/client";
-import { useUser } from "@clerk/nextjs";
 import { useQuery } from "@tanstack/react-query";
 
 export default function DashboardPage() {
   const trpc = useTRPC();
-  const test = useQuery(trpc.users.getMany.queryOptions());
-  const user = useUser();
+  const { error, data, isFetching } = useQuery(
+    trpc.posts.getAll.queryOptions()
+  );
 
+  if (isFetching) return <div>Loading...</div>;
+  if (error) {
+    return (
+      <div>
+        <h2>Error occurred:</h2>
+        <pre>{error.message}</pre>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </div>
+    );
+  }
   return (
     <>
       <SignInOutButton />
-      <div>{JSON.stringify(test.data, null, 2)}</div>
-      {user && <div>{JSON.stringify(user, null, 2)}</div>}
+      {JSON.stringify(data, null, 2)}
     </>
   );
 }
