@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getQueryClient, trpc } from "@/trpc/server";
+// import { getQueryClient, trpc } from "@/trpc/server";
 
 export default async function Page() {
   // const queryClient = getQueryClient();

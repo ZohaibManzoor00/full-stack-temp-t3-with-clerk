@@ -1,5 +1,5 @@
 import { asc } from "drizzle-orm";
-import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
+import type { inferRouterOutputs } from '@trpc/server';
 import { AppRouter } from "../routers/_app";
 import { db } from "@/db/init";
 import { categoriesTable, subCategoriesTable } from "@/db/schema";
@@ -22,6 +22,6 @@ export const categoriesRouter = createTRPCRouter({
   }),
 });
 
-type RouterInput = inferRouterInputs<AppRouter>;
+// type RouterInput = inferRouterInputs<AppRouter>;
 type RouterOutput = inferRouterOutputs<AppRouter>;
 export type Category = RouterOutput['categories']['getAll'][number]

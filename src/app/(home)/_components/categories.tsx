@@ -18,7 +18,7 @@ export default function Categories({ categories }: Props) {
 
   const [visibleCount, setVisibleCount] = useState(categories.length);
   const [isAnyHovered, setIsAnyHovered] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const activeCategory = "all";
   const activeCategoryIdx = categories.findIndex(
