@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import Link from "next/link";
 // import { getQueryClient, trpc } from "@/trpc/server";
 
@@ -10,11 +10,18 @@ export default async function Page() {
 
   return (
     <>
-      <h1>Hello</h1>
-      {/* {JSON.stringify(categories, null, 2)} */}
-      <Button>
-        <Link href="/dashboard">View Dashboard</Link>
-      </Button>
+      {/* <ProductCard /> */}
     </>
   );
+}
+
+function ProductCard() {
+  return (
+    <>
+      <div>
+        <Link href={''}>
+        </Link>
+      </div>
+    </>
+  )
 }
