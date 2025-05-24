@@ -1,3 +1,8 @@
+Commands:
+Drizzle:
+    - Push new schema changes: `bunx drizzle-kit push`
+
+
 TODO: 
 
 [X] Scaffold Next Project + ShadCN UI
