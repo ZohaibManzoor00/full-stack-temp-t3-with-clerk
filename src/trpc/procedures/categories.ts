@@ -2,7 +2,7 @@ import { asc } from "drizzle-orm";
 import type { inferRouterOutputs } from '@trpc/server';
 import { AppRouter } from "../routers/_app";
 import { db } from "@/db/init";
-import { categoriesTable, subCategoriesTable } from "@/db/schema";
+import { categories, subCategories } from "@/db/schema";
 import {
   createTRPCRouter,
   publicProcedure,
@@ -10,10 +10,10 @@ import {
 
 export const categoriesRouter = createTRPCRouter({
   getAll: publicProcedure.query(async () => {
-    const categories = await db.select().from(categoriesTable).orderBy(asc(categoriesTable.name));
-    const subcategories = await db.select().from(subCategoriesTable);
+    const categoriesRes = await db.select().from(categories).orderBy(asc(categories.name));
+    const subcategories = await db.select().from(subCategories);
 
-    const groupSubWithCategory = categories.map((cat) => ({
+    const groupSubWithCategory = categoriesRes.map((cat) => ({
       ...cat,
       subcategories: subcategories.filter((sub) => sub.parent === cat.id),
     }));
