@@ -1,7 +1,9 @@
-import { Footer } from "../(home)/_components/footer";
-import { Navbar } from "../(home)/_components/navbar";
+import { Footer } from "../(marketplace)/_components/footer";
+import { Navbar } from "../(marketplace)/_components/navbar";
 
-export default function SEOLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function SEOLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />

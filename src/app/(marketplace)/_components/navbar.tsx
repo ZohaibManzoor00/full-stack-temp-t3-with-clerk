@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { Poppins } from "next/font/google";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
-import NavbarSidebar from "./navbar-sidebar";
-import { useState } from "react";
+import { NavbarSidebar } from "./navbar-sidebar";
 import { MenuIcon } from "lucide-react";
 
 const poppins = Poppins({
@@ -22,7 +22,7 @@ export function Navbar() {
   return (
     <nav className="h-20 flex border-b justify-between font-medium">
       <Link href="/" className="pl-6 flex items-center">
-        <span className={cn("text-5xl font-semibold", poppins.className)}>
+        <span className={cn("text-5xl font-semibold whitespace-nowrap", poppins.className)}>
           APP
         </span>
       </Link>

@@ -6,9 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function DashboardPage() {
   const trpc = useTRPC();
-  const { error, data, isFetching } = useQuery(
-    trpc.products.getAll.queryOptions()
-  );
+  const { error, data, isFetching } = useQuery(trpc.products.getAll.queryOptions());
 
   if (isFetching) return <div>Loading data...</div>;
   if (error) {
