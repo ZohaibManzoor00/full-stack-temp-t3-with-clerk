@@ -1,16 +1,42 @@
-import { Category } from "@/trpc/procedures/categories";
+"use client";
+
+import { useSuspenseQuery } from "@tanstack/react-query";
 import Categories from "./categories";
 import SearchInput from "./search-input";
+import { useTRPC } from "@/trpc/client";
+import { useParams } from "next/navigation";
 
-interface Props {
-    categories: Category[]
-}
+export function SearchFilters() {
+  const trpc = useTRPC();
+  const { data: categories } = useSuspenseQuery(
+    trpc.categories.getAll.queryOptions()
+  );
 
-export function SearchFilters({ categories }: Props) {
+  const params = useParams();
+  const categoryParam = params.category as string | undefined;
+  const activeCategory = categoryParam || "all";
+
+  const activeCategoryData = categories.find(
+    (cat) => cat.slug === activeCategory
+  );
+
+  const activeCategoryColor = activeCategoryData?.color || "#F5F5F5";
+  // const activeCategoryName = activeCategoryData?.name || null;
+
+  // const activeSubcategory = params?.subcategory as string | undefined;
+  // const activeSubcategoryName = activeCategoryData?.subcategories?.find(
+  //   (sub) => sub.slug === activeSubcategory
+  // );
+
   return (
-    <div className="px-4 lg:px-12 py-8 border-b flex flex-col gap-4 w-full">
-      <SearchInput />
-      <Categories categories={categories}/>
+    <div
+      className="px-4 lg:px-12 py-8 border-b flex flex-col gap-4 w-full"
+      style={{ backgroundColor: activeCategoryColor }}
+    >
+      <SearchInput categories={categories}/>
+      <div className="hidden lg:block">
+        <Categories categories={categories} />
+      </div>
     </div>
   );
 }

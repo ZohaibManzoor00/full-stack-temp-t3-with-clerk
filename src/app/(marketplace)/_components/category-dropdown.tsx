@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import { useDropDownPosition } from "@/hooks/use-dropdown-position";
 import { cn } from "@/lib/utils";
@@ -35,13 +37,13 @@ export function CategoryDropdown({ category, isActive, isNavHover }: Props) {
     >
       <div className="relative">
         <Button
+          asChild
           variant={isActive ? "default" : "outline"}
-          className={cn(
-            // "hover:bg-red-900",
-            isActive && !isNavHover && "border-primary"
-          )}
+          className={cn(isActive && !isNavHover && "border-primary")}
         >
-          {category.name}
+          <Link href={`/${category.slug === "all" ? "" : category.slug}`}>
+            {category.name}
+          </Link>
         </Button>
         {category.subcategories && category.subcategories.length > 0 && (
           <div

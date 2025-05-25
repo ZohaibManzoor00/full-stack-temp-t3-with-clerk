@@ -1,8 +1,12 @@
 import { Input } from "@/components/ui/input";
-import { SearchIcon } from "lucide-react";
+import { Category } from "@/trpc/procedures/categories";
+import { ListFilterIcon, SearchIcon } from "lucide-react";
+// import { CategoriesSidebar } from "./categories-sidebar";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   disabled?: boolean;
+  categories: Category[]
 }
 
 export default function SearchInput({ disabled }: Props) {
@@ -16,6 +20,14 @@ export default function SearchInput({ disabled }: Props) {
           disabled={disabled}
         />
       </div>
+
+
+      <Button className="size-12 shrink-0 flex lg:hidden"
+      // onClick={() => setIsSideBarOpen(true)}
+      >
+        <ListFilterIcon />
+
+      </Button>
     </div>
   );
 }

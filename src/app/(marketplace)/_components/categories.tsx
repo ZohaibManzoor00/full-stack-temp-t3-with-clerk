@@ -1,26 +1,31 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "next/navigation";
 
 import { Category } from "@/trpc/procedures/categories";
 import { CategoryDropdown } from "./category-dropdown";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ListFilterIcon } from "lucide-react";
+import { CategoriesSidebar } from "./categories-sidebar";
 
 interface Props {
   categories: Category[];
 }
 export default function Categories({ categories }: Props) {
+  const params = useParams();
+
   const containerRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const viewAllRef = useRef<HTMLDivElement>(null);
 
   const [visibleCount, setVisibleCount] = useState(categories.length);
   const [isAnyHovered, setIsAnyHovered] = useState(false);
-  // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const activeCategory = "all";
+  const categoryParam = params.category as string | undefined;
+  const activeCategory = categoryParam || "all";
   const activeCategoryIdx = categories.findIndex(
     (cat) => cat.slug === activeCategory
   );
@@ -59,6 +64,7 @@ export default function Categories({ categories }: Props) {
 
   return (
     <div className="relative w-full">
+      <CategoriesSidebar open={isSidebarOpen} onOpenChange={setIsSidebarOpen}/>
       <div
         ref={measureRef}
         className="absolute opacity-0 pointer-events-none flex"
@@ -93,8 +99,11 @@ export default function Categories({ categories }: Props) {
 
         <div ref={viewAllRef} className="shrink-0">
           <Button
-           variant={isActiveCategoryHidden ? "default" : "outline"}
-            className={cn(isActiveCategoryHidden && !isAnyHovered && "border-primary")}
+            variant={isActiveCategoryHidden ? "default" : "outline"}
+            className={cn(
+              isActiveCategoryHidden && !isAnyHovered && "border-primary"
+            )}
+            onClick={() => setIsSidebarOpen(true)}
           >
             View All
             <ListFilterIcon />
