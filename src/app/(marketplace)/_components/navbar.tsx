@@ -22,7 +22,12 @@ export function Navbar() {
   return (
     <nav className="h-20 flex border-b justify-between font-medium">
       <Link href="/" className="pl-6 flex items-center">
-        <span className={cn("text-5xl font-semibold whitespace-nowrap", poppins.className)}>
+        <span
+          className={cn(
+            "text-5xl font-semibold whitespace-nowrap",
+            poppins.className
+          )}
+        >
           APP
         </span>
       </Link>
@@ -44,6 +49,16 @@ export function Navbar() {
           </NavbarItem>
         ))}
       </div>
+
+      {/* <div className="hidden lg:flex">
+          <Button
+            asChild
+            variant="secondary"
+            className="border-l border-t-0 border-b-0 border-r-0 px-12 h-full rounded-none transition-colors text-lg bg-white hover:bg-pink-400"
+          >
+            <Link href="/sign-in">Your store</Link>
+          </Button>
+        </div> */}
 
       <div className="hidden lg:flex">
         <Button
@@ -67,7 +82,7 @@ export function Navbar() {
           className="size-12 border-transparent"
           onClick={() => setIsSideBarOpen(true)}
         >
-          <MenuIcon className="size-6"/>
+          <MenuIcon className="size-6" />
         </Button>
       </div>
     </nav>

@@ -3,5 +3,9 @@ interface Props {
 }
 export default async function CategoryPage({ params }: Props) {
   const { category } = await params;
-  return <div>CategoryPage: {category}</div>;
+  return (
+    <>
+      <div>CategoryPage: {category}</div>
+    </>
+  );
 }

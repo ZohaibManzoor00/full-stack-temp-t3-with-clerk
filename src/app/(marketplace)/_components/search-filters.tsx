@@ -1,10 +1,18 @@
 "use client";
 
+import { useParams } from "next/navigation";
+import { useTRPC } from "@/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
+
 import Categories from "./categories";
 import SearchInput from "./search-input";
-import { useTRPC } from "@/trpc/client";
-import { useParams } from "next/navigation";
+// import {
+//   Breadcrumb,
+//   BreadcrumbItem,
+//   BreadcrumbLink,
+//   BreadcrumbList,
+//   BreadcrumbSeparator,
+// } from "@/components/ui/breadcrumb";
 
 export function SearchFilters() {
   const trpc = useTRPC();
@@ -33,10 +41,25 @@ export function SearchFilters() {
       className="px-4 lg:px-12 py-8 border-b flex flex-col gap-4 w-full"
       style={{ backgroundColor: activeCategoryColor }}
     >
-      <SearchInput categories={categories}/>
+      <SearchInput categories={categories} />
       <div className="hidden lg:block">
         <Categories categories={categories} />
       </div>
+      {/* <BreadCrumbNavigation
+        activeCategory={activeCategory}
+        activeCategoryName={activeCategoryName}
+        activeSubcategoryName={activeSubcategoryName}
+      /> */}
     </div>
   );
 }
+
+// interface Props {
+//   activeCategory: boolean 
+//   activeCategoryName: string 
+//   activeSubcategoryName: string
+// }
+
+// function BreadCrumbNavigation({ activeCategory, activeCategoryName, activeSubcategoryName }: Props) {
+//   return <></>;
+// }
