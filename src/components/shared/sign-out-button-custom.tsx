@@ -4,7 +4,9 @@ import { SignOutButton, SignUpButton, useAuth } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 
 export default function SignInOutButton() {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, isLoaded } = useAuth();
+
+  if (!isLoaded) return null
 
   if (isSignedIn) {
     return (

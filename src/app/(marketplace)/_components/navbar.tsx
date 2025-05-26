@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Poppins } from "next/font/google";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { SignOutButton } from "@clerk/nextjs";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -48,6 +49,10 @@ export function Navbar() {
             {item.children}
           </NavbarItem>
         ))}
+
+        <SignOutButton>
+          <Button>Sign Out</Button>
+        </SignOutButton>
       </div>
 
       {/* <div className="hidden lg:flex">
@@ -68,6 +73,7 @@ export function Navbar() {
         >
           <Link href="/sign-in">Log in</Link>
         </Button>
+
         <Button
           asChild
           className="border-l border-t-0 border-b-0 border-r-0 px-12 h-full rounded-none transition-colors text-lg bg-black text-white hover:bg-pink-400 hover:text-black"

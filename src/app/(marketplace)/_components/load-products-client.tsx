@@ -1,7 +1,7 @@
 "use client";
 
 // import { useEffect } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { useTRPC } from "@/trpc/client";
 
@@ -18,7 +18,7 @@ export function ProductList() {
     isError,
     error,
     isLoading,
-  } = useInfiniteQuery(
+  } = useSuspenseInfiniteQuery(
     trpc.products.infiniteProducts.infiniteQueryOptions(
       { cursor: null },
       { getNextPageParam: (lastPage) => lastPage.nextCursor }
@@ -35,7 +35,7 @@ export function ProductList() {
   if (isError) {
     return (
       <div className="text-center py-8">
-        Something went wrong: {error.message}
+        Something went wrong: {error?.message}
       </div>
     );
   }
