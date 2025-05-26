@@ -2,7 +2,7 @@ import { pgTable as table } from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
 
 export const users = table("users", {
-  id: t.serial("id").primaryKey(),
+  id: t.varchar("id", { length: 128 }).primaryKey(),
   email: t.varchar("email", { length: 128 }),
   joinedAt: t.date("joined_at").defaultNow(),
   firstName: t.varchar("first_name", { length: 64 }),
@@ -11,7 +11,7 @@ export const users = table("users", {
 
 export const stores = table("stores", {
   id: t.serial("id").primaryKey(),
-  ownerId: t.integer("owner_id").references(() => users.id),
+  ownerId: t.varchar("owner_id", { length: 128 }).references(() => users.id),
   name: t.varchar("name", { length: 64 }),
   slug: t.varchar("slug", { length: 128 }),
   isOnline: t.boolean("is_online").default(false),
@@ -21,7 +21,7 @@ export const stores = table("stores", {
 export const products = table("products", {
   id: t.serial("id").primaryKey(),
   storeId: t.integer("store_id").references(() => stores.id),
-  ownerId: t.integer("owner_id").references(() => users.id),
+  ownerId: t.varchar("owner_id", { length: 128 }).references(() => users.id),
   slug: t.varchar("slug", { length: 64 }),
   title: t.varchar("title", { length: 256 }),
   description: t.varchar("description", { length: 512 }),

@@ -1,13 +1,14 @@
 import type { inferRouterOutputs } from "@trpc/server";
 import { AppRouter } from "../routers/_app";
-import { createTRPCRouter, publicProcedure } from "@/trpc/init";
+import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import z from "zod";
 import { users } from "@/db/schema";
 
 export const usersRouter = createTRPCRouter({
-  createUser: publicProcedure
+  createUser: protectedProcedure
     .input(
       z.object({
+        id: z.string(),
         email: z.string().email(),
         firstName: z.string(),
         lastName: z.string(),
@@ -15,6 +16,7 @@ export const usersRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.insert(users).values({
+        id: ctx.auth.userId,
         email: input.email,
         firstName: input.firstName,
         lastName: input.lastName,
@@ -23,4 +25,4 @@ export const usersRouter = createTRPCRouter({
 });
 
 type RouterOutput = inferRouterOutputs<AppRouter>;
-export type Category = RouterOutput["users"]["createUser"];
+export type CreateUserResult = RouterOutput["users"]["createUser"];
