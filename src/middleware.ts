@@ -3,7 +3,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
   "/sign-up(.*)",
-  "/",
+  "/:path*", // TODO: change to actual public paths
   "/api/trpc/:path*",
   "/dashboard",
   "/about",

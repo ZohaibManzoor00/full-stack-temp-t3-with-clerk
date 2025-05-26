@@ -8,7 +8,11 @@ import { useTRPC } from "@/trpc/client";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "./product-card";
 
-export function ProductList() {
+interface Props {
+  category?: string;
+}
+
+export function ProductList({ category }: Props) {
   const trpc = useTRPC();
   const {
     data,
@@ -20,7 +24,7 @@ export function ProductList() {
     isLoading,
   } = useSuspenseInfiniteQuery(
     trpc.products.infiniteProducts.infiniteQueryOptions(
-      { cursor: null },
+      { cursor: null, categorySlug: category },
       { getNextPageParam: (lastPage) => lastPage.nextCursor }
     )
   );
@@ -39,7 +43,6 @@ export function ProductList() {
       </div>
     );
   }
-
   if (products.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">No products found.</div>
@@ -47,7 +50,6 @@ export function ProductList() {
   }
 
   return (
-    // <div className="max-w-6xl mx-auto px-4 py-8">
     <>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {products.map((product) => (
@@ -71,7 +73,6 @@ export function ProductList() {
         )}
       </div>
     </>
-    // </div>
   );
 }
 
