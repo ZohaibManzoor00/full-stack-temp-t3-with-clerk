@@ -2,7 +2,7 @@ import { pgTable as table } from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
 
 export const users = table("users", {
-  id: t.varchar("id", { length: 128 }).primaryKey(),
+  id: t.serial("id").primaryKey(),
   email: t.varchar("email", { length: 128 }),
   joinedAt: t.date("joined_at").defaultNow(),
   firstName: t.varchar("first_name", { length: 64 }),

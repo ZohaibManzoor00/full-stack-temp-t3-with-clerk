@@ -8,6 +8,27 @@
       "when": 1748217047691,
       "tag": "0000_sweet_magneto",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1748221217216,
+      "tag": "0001_exotic_omega_flight",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1748221297971,
+      "tag": "0002_faulty_harry_osborn",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1748221577060,
+      "tag": "0003_yellow_the_renegades",
+      "breakpoints": true
     }
   ]
 }

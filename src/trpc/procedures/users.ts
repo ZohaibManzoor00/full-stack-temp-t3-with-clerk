@@ -8,19 +8,13 @@ export const usersRouter = createTRPCRouter({
   createUser: publicProcedure
     .input(
       z.object({
-        id: z.string(),
         email: z.string().email(),
         firstName: z.string(),
         lastName: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const existing = await ctx.db.query.users.findFirst({
-        where: (u, { eq }) => eq(u.id, input.id),
-      });
-      if (existing) return existing;
       return await ctx.db.insert(users).values({
-        id: input.id,
         email: input.email,
         firstName: input.firstName,
         lastName: input.lastName,

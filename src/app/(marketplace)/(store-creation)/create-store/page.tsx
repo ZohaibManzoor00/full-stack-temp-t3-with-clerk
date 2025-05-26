@@ -1,9 +1,22 @@
-import React from "react";
+"use client";
+import { useUser } from "@clerk/nextjs";
+import { useEffect } from "react";
+import { rawTRPCClient } from "@/trpc/client"; // adjust path if needed
 
-import { db } from "@/db/init";
-import { auth, clerkClient } from "@clerk/nextjs/server";
-import { notFound } from "next/navigation";
+export default function CreateStorePage() {
+  const { user, isLoaded } = useUser();
+  console.log(user);
 
-export default async function CreateStorePage() {
-  return <div>Create store page</div>;
+  useEffect(() => {
+    if (isLoaded && user) {
+      rawTRPCClient.users.createUser.mutate({
+        id: user.id,
+        email: user.emailAddresses[0].emailAddress,
+        firstName: user.firstName ?? "",
+        lastName: user.lastName ?? "",
+      });
+    }
+  }, [isLoaded, user]);
+
+  return <div>Create your store</div>;
 }
