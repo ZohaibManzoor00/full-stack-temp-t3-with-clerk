@@ -22,7 +22,7 @@ interface Props {
   store: Store;
 }
 
-const FAKE_USER_ID = 1,
+const FAKE_USER_ID = "1",
   FAKE_STORE_ID = 2;
 export function Navbar({ store }: Props) {
   const pathname = usePathname();
