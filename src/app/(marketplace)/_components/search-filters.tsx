@@ -6,13 +6,15 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 
 import Categories from "./categories";
 import SearchInput from "./search-input";
-// import {
-//   Breadcrumb,
-//   BreadcrumbItem,
-//   BreadcrumbLink,
-//   BreadcrumbList,
-//   BreadcrumbSeparator,
-// } from "@/components/ui/breadcrumb";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import Link from "next/link";
 
 export function SearchFilters() {
   const trpc = useTRPC();
@@ -29,12 +31,13 @@ export function SearchFilters() {
   );
 
   const activeCategoryColor = activeCategoryData?.color || "#F5F5F5";
-  // const activeCategoryName = activeCategoryData?.name || null;
+  const activeCategoryName = activeCategoryData?.name || null;
 
-  // const activeSubcategory = params?.subcategory as string | undefined;
-  // const activeSubcategoryName = activeCategoryData?.subcategories?.find(
-  //   (sub) => sub.slug === activeSubcategory
-  // );
+  const activeSubcategory = params?.subcategory as string | undefined;
+  const activeSubcategoryName =
+    activeCategoryData?.subcategories?.find(
+      (sub) => sub.slug === activeSubcategory
+    )?.name ?? null;
 
   return (
     <div
@@ -45,21 +48,59 @@ export function SearchFilters() {
       <div className="hidden lg:block">
         <Categories categories={categories} />
       </div>
-      {/* <BreadCrumbNavigation
+      <BreadCrumbNavigation
         activeCategory={activeCategory}
         activeCategoryName={activeCategoryName}
         activeSubcategoryName={activeSubcategoryName}
-      /> */}
+      />
     </div>
   );
 }
 
-// interface Props {
-//   activeCategory: boolean 
-//   activeCategoryName: string 
-//   activeSubcategoryName: string
-// }
+interface Props {
+  activeCategory?: string | null;
+  activeCategoryName?: string | null;
+  activeSubcategoryName?: string | null;
+}
 
-// function BreadCrumbNavigation({ activeCategory, activeCategoryName, activeSubcategoryName }: Props) {
-//   return <></>;
-// }
+function BreadCrumbNavigation({
+  activeCategory,
+  activeCategoryName,
+  activeSubcategoryName,
+}: Props) {
+  if (!activeCategoryName || activeCategory === "all") return null;
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        {activeSubcategoryName ? (
+          <>
+            <BreadcrumbItem>
+              <BreadcrumbLink
+                asChild
+                className="text-xl font-medium underline text-primary"
+              >
+                <Link href={`/${activeCategory}`}>{activeCategoryName}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator className="text-xl font-medium text-primary">
+              /
+            </BreadcrumbSeparator>
+            <BreadcrumbItem>
+              <BreadcrumbPage
+                className="text-xl font-medium text-primary"
+              >
+                  {activeSubcategoryName}
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+          </>
+        ) : (
+          <BreadcrumbItem>
+          <BreadcrumbPage className="text-xl font-medium text-primary">
+          {activeCategoryName}
+          </BreadcrumbPage>
+          </BreadcrumbItem>
+        )}
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+}

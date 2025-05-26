@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { Poppins } from "next/font/google";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
+import { Card, CardContent } from "@/components/ui/card";
 import { Heart, MenuIcon, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -57,7 +58,7 @@ export function Navbar({ store }: Props) {
       />
 
       <div className="items-center gap-4 hidden lg:flex">
-        {navbarItems.map((item) => (
+      {navbarItems.map((item) => (
           <NavbarItem
             key={item.href}
             href={item.href}
@@ -66,6 +67,9 @@ export function Navbar({ store }: Props) {
             {item.children}
           </NavbarItem>
         ))}
+      {/* <div className="hidden lg:flex">
+        <AnimatedNavbarItems />
+      </div> */}
       </div>
       <div className="hidden relative lg:flex items-center pr-4">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -97,7 +101,7 @@ interface NavbarItemProps {
   isActive?: boolean;
 }
 
-const BASE = '/store'
+const BASE = "/store";
 const navbarItems = [
   { href: `${BASE}/${FAKE_STORE_ID}`, children: "Home" },
   { href: `${BASE}/${FAKE_STORE_ID}/products`, children: "Products" },
@@ -107,8 +111,118 @@ const navbarItems = [
 
 function NavbarItem({ href, children, isActive }: NavbarItemProps) {
   return (
-    <Button asChild variant="link" className={cn("text-sm xl:text-md", isActive && "underline")}>
+    <Button
+      asChild
+      variant="link"
+      className={cn("text-sm xl:text-md", isActive && "underline")}
+    >
       <Link href={href}>{children}</Link>
     </Button>
+  );
+}
+
+export function AnimatedNavbarItems() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [hoverStyle, setHoverStyle] = useState({});
+  const [activeStyle, setActiveStyle] = useState({ left: "0px", width: "0px" });
+  const [isDarkMode] = useState(false);
+  const tabRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const setTabRef = (index: number) => (el: HTMLDivElement | null) => {
+    tabRefs.current[index] = el;
+  };
+
+  useEffect(() => {
+    if (hoveredIndex !== null) {
+      const hoveredElement = tabRefs.current[hoveredIndex];
+      if (hoveredElement) {
+        const { offsetLeft, offsetWidth } = hoveredElement;
+        setHoverStyle({
+          left: `${offsetLeft}px`,
+          width: `${offsetWidth}px`,
+        });
+      }
+    }
+  }, [hoveredIndex]);
+
+  useEffect(() => {
+    const activeElement = tabRefs.current[activeIndex];
+    if (activeElement) {
+      const { offsetLeft, offsetWidth } = activeElement;
+      setActiveStyle({
+        left: `${offsetLeft}px`,
+        width: `${offsetWidth}px`,
+      });
+    }
+  }, [activeIndex]);
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      const overviewElement = tabRefs.current[0];
+      if (overviewElement) {
+        const { offsetLeft, offsetWidth } = overviewElement;
+        setActiveStyle({
+          left: `${offsetLeft}px`,
+          width: `${offsetWidth}px`,
+        });
+      }
+    });
+  }, []);
+
+  return (
+    <div
+      className={`flex justify-center items-center w-full ${
+        isDarkMode ? "dark bg-[#0e0f11]" : ""
+      }`}
+    >
+      <Card
+        className={`w-full border-none shadow-none relative flex items-center justify-center ${
+          isDarkMode ? "bg-transparent" : ""
+        }`}
+      >
+        <CardContent className="p-0">
+          <div className="relative">
+            {/* Hover Highlight */}
+            <div
+              className="absolute h-[30px] transition-all duration-300 ease-out bg-[#0e0f1114] dark:bg-[#ffffff1a] rounded-[6px] flex items-center"
+              style={{
+                ...hoverStyle,
+                opacity: hoveredIndex !== null ? 1 : 0,
+              }}
+            />
+
+            {/* Active Indicator */}
+            <div
+              className="absolute bottom-[-6px] h-[2px] bg-[#0e0f11] dark:bg-white transition-all duration-300 ease-out"
+              style={activeStyle}
+            />
+
+            {/* Tabs */}
+            <div className="relative flex space-x-[6px] items-center">
+              {navbarItems.map((item, index) => (
+                <Link key={item.href} href={item.href}>
+                  <div
+                    ref={setTabRef(index)}
+                    className={`px-3 py-2 cursor-pointer transition-colors duration-300 h-[30px] ${
+                      index === activeIndex
+                        ? "text-[#0e0e10] dark:text-white"
+                        : "text-[#0e0f1199] dark:text-[#ffffff99]"
+                    }`}
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                    onClick={() => setActiveIndex(index)}
+                  >
+                    <div className="text-sm xl:text-lg leading-5 whitespace-nowrap flex items-center justify-center h-full">
+                      {item.children}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
