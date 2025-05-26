@@ -14,6 +14,7 @@ export const usersRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      console.log("CREATE USER called", ctx.auth.userId);
       const userId = ctx.auth.userId;
 
       const existing = await ctx.db.query.users.findFirst({
@@ -27,6 +28,14 @@ export const usersRouter = createTRPCRouter({
         email: input.email,
         firstName: input.firstName,
         lastName: input.lastName,
+      });
+    }),
+
+  getUserById: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.users.findFirst({
+        where: (u, { eq }) => eq(u.id, input.id),
       });
     }),
 });
