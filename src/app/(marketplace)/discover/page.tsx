@@ -5,12 +5,11 @@ import { ProductList, ProductListSkeleton } from "../_components/load-products-c
 
 export const dynamic = "force-dynamic";
 
-
 interface Props {
-  params: Promise<{ category: string }>;
+  params: Promise<{ category?: string }>;
 }
 
-export default async function CategoryPage({ params }: Props) {
+export default async function MarketPlacePage({ params }: Props) {
   const { category } = await params;
   const queryClient = getQueryClient();
   void queryClient.prefetchInfiniteQuery(
@@ -22,6 +21,7 @@ export default async function CategoryPage({ params }: Props) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <FeaturedProductsCarousel />
       <Suspense fallback={<ProductListSkeleton />}>
         <div className="max-w-6xl mx-auto px-4 py-8">
           <ProductList category={category} />
@@ -29,4 +29,8 @@ export default async function CategoryPage({ params }: Props) {
       </Suspense>
     </HydrationBoundary>
   );
+}
+
+function FeaturedProductsCarousel() {
+  return ( <></>)
 }

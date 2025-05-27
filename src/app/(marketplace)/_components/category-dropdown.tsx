@@ -41,7 +41,7 @@ export function CategoryDropdown({ category, isActive, isNavHover }: Props) {
           variant={isActive ? "default" : "outline"}
           className={cn(isActive && !isNavHover && "border-primary")}
         >
-          <Link href={`/${category.slug === "all" ? "" : category.slug}`}>
+          <Link href={`/discover/${category.slug === "all" ? "" : category.slug}`}>
             {category.name}
           </Link>
         </Button>

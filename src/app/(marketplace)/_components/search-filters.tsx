@@ -79,7 +79,7 @@ function BreadCrumbNavigation({
                 asChild
                 className="text-xl font-medium underline text-primary"
               >
-                <Link href={`/${activeCategory}`}>{activeCategoryName}</Link>
+                <Link href={`/discover/${activeCategory}`}>{activeCategoryName}</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="text-xl font-medium text-primary">

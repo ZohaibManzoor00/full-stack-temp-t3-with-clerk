@@ -4,6 +4,17 @@ Drizzle:
 
 
 TODO: 
+Zo:
+Marketplace:
+[X] Hook Up categories
+[ ] Hook Up subcategories
+[ ] Show filters on nav for responsive view
+[ ] Search for products. via Fuzzy Search -> Full text search
+[ ] Update Navbar to reflect logged in status
+
+Later:
+[ ] Market Filtering
+[ ] 
 
 [X] Scaffold Next Project + ShadCN UI
 [X] Integrate TRPC

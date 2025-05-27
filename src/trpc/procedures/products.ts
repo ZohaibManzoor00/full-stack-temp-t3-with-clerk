@@ -1,14 +1,14 @@
 import { z } from "zod";
-import { and, eq, gt } from "drizzle-orm";
+import { and, eq, gt, sql } from "drizzle-orm";
 import { categories, products, users } from "@/db/schema";
 import { createTRPCRouter, publicProcedure } from "@/trpc/init";
 import { inferRouterOutputs } from "@trpc/server";
 import { AppRouter } from "../routers/_app";
 
 export const productRouter = createTRPCRouter({
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    const allProducts = await ctx.db.select().from(products).limit(100);
-    return allProducts;
+  getFeatured: publicProcedure.query(async ({ ctx }) => {
+    const featuredProducts = await ctx.db.select().from(products).orderBy(sql`RANDOM()`).limit(8);
+    return featuredProducts;
   }),
   infiniteProducts: publicProcedure
     .input(
@@ -19,7 +19,7 @@ export const productRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const conditions = [];
-      const limit = 5;
+      const limit = 10;
 
       if (input.cursor != null) {
         conditions.push(gt(products.id, input.cursor));
@@ -68,5 +68,5 @@ export const productRouter = createTRPCRouter({
 });
 
 type RouterOutput = inferRouterOutputs<AppRouter>;
-export type Product = RouterOutput["products"]["getAll"][number];
+export type FeaturedProducts = RouterOutput["products"]["getFeatured"][number];
 export type MarketProducts = RouterOutput["products"]["infiniteProducts"]["products"][number];

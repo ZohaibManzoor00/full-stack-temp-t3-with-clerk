@@ -1,19 +1,16 @@
 import { Suspense } from "react";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { ProductList, ProductListSkeleton } from "../../_components/load-products-client";
 
 export const dynamic = "force-dynamic";
 
-import {
-  ProductList,
-  ProductListSkeleton,
-} from "./_components/load-products-client";
 
 interface Props {
-  params: Promise<{ category?: string }>;
+  params: Promise<{ category: string }>;
 }
 
-export default async function MarketPlacePage({ params }: Props) {
+export default async function CategoryPage({ params }: Props) {
   const { category } = await params;
   const queryClient = getQueryClient();
   void queryClient.prefetchInfiniteQuery(
